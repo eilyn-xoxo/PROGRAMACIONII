@@ -1,8 +1,8 @@
 ﻿using ProyectoHotel.Models;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -11,13 +11,11 @@ namespace ProyectoHotel.Logica
 {
     public class VentaLogica
     {
-        private static VentaLogica instancia = null;
-
-        public VentaLogica()
+        public static VentaLogica instancia = new VentaLogica();
+        public VentaLogica() 
         {
-
         }
-
+        
         public static VentaLogica Instancia
         {
             get
@@ -68,7 +66,7 @@ namespace ProyectoHotel.Logica
         public bool Registrar(Venta objeto)
         {
             bool respuesta = true;
-            
+
             using (SqlConnection oConexion = new SqlConnection(Conexion.CN))
             {
                 try
@@ -81,7 +79,7 @@ namespace ProyectoHotel.Logica
 
 
                     sb.AppendLine("declare @idventa int = 0");
-                    sb.AppendLine(string.Format("insert into VENTA(IdRecepcion,Total,Estado) values ({0},{1},'{2}')", objeto.oRecepcion.IdRecepcion,objeto.Total,objeto.Estado));
+                    sb.AppendLine(string.Format("insert into VENTA(IdRecepcion,Total,Estado) values ({0},{1},'{2}')", objeto.oRecepcion.IdRecepcion, objeto.Total, objeto.Estado));
                     sb.AppendLine("set @idventa = SCOPE_IDENTITY()");
                     foreach (DetalleVenta dv in objeto.oDetalleVenta)
                     {

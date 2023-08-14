@@ -36,5 +36,6 @@ namespace ProyectoHotel.Models
         public string Observacion { get; set; }
         public bool Estado { get; set; }
         public List<Venta> oVenta { get; set; }
+
     }
 }

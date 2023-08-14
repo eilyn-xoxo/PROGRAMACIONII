@@ -49,13 +49,7 @@ namespace ProyectoHotel.Controllers
             return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult RegistrarVenta(Venta objeto)
-        {
-            bool respuesta = false;
-            respuesta = VentaLogica.Instancia.Registrar(objeto);
-            return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
-        }
+        
 
     }
 }

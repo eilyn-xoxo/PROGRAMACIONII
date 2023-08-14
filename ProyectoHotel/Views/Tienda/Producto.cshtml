@@ -1,14 +1,14 @@
-﻿
-@{
-    ViewBag.Title = "Cliente";
+﻿@{
+    ViewBag.Title = "Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3 bg-primary">
-        <h6 class="m-0 font-weight-bold text-white">Lista de Clientes</h6>
+        <h6 class="m-0 font-weight-bold text-white">Lista de Productos</h6>
     </div>
     <div class="card-body">
         <div class="row">
@@ -23,22 +23,20 @@
                     <table class="table table-bordered" id="tabla" style="width:100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Tipo Documento</th>
-                                <th>Nro Documento</th>
                                 <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Correo</th>
+                                <th>Detalle</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
                                 <th>Estado</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Tipo Documento</th>
-                                <th>Nro Documento</th>
                                 <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Correo</th>
+                                <th>Detalle</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
                                 <th>Estado</th>
                                 <th></th>
                             </tr>
@@ -59,7 +57,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Cliente</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Producto</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -70,27 +68,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="txtdescripcion">Tipo Documento:</label>
-                                <select class="form-control" id="cbotipodocumento">
-                                    <option value="DNI">DNI</option>
-                                    <option value="PASAPORTE">PASAPORTE</option>
-                                    <option value="CARNET EXTRANJERIA">CARNET EXTRANJERIA</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="txtdescripcion">Nro Documento:</label>
-                                <input type="text" class="form-control required" id="txtdocumento" name="descripcion" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="txtdescripcion">Nombre:</label>
+                                <label for="txtnombre">Nombre:</label>
                                 <input type="text" class="form-control required" id="txtnombre" name="descripcion" autocomplete="off">
                             </div>
                         </div>
@@ -98,19 +76,28 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="txtdescripcion">Apellido:</label>
-                                <input type="text" class="form-control required" id="txtapellido" name="descripcion" autocomplete="off">
+                                <label for="txtdetalle">Detalle:</label>
+                                <input type="text" class="form-control required" id="txtdetalle" name="descripcion" autocomplete="off">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="txtdescripcion">Correo:</label>
-                                <input type="text" class="form-control required" id="txtcorreo" name="descripcion" autocomplete="off">
+                                <label for="txtprecio">Precio:</label>
+                                <input type="text" class="form-control required" id="txtprecio" name="descripcion" autocomplete="off">
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="txtcantidad">Cantidad:</label>
+                                <input type="text" class="form-control required" id="txtcantidad" name="descripcion" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -143,55 +130,50 @@
 
         $(document).ready(function () {
 
-            tabladata = $('#tabla').DataTable({
-                responsive:true,
-                "ajax": {
-                    "url": '@Url.Action("ListarPersona", "Inicio")',
-                    "type": "GET",
-                    "datatype": "json",
-                    "dataSrc": function (json) {
-                        return json.data.filter(function (item) {
-                            return item.oTipoPersona.IdTipoPersona == 3;
-                        });
-                    }
-                },
-                "columns": [
-                    { "data": "TipoDocumento" },
-                    { "data": "Documento" },
-                    { "data": "Nombre" },
-                    { "data": "Apellido" },
-                    { "data": "Correo" },
-                    {
-                        "data": "Estado", "render": function (data) {
-                            if (data) {
-                                return '<span class="badge badge-success p-2">Activo</span>'
-                            } else {
-                                return '<span class="badge badge-danger p-2">No Activo</span>'
-                            }
-                        }
+
+                tabladata = $('#tabla').DataTable({
+                    responsive:true,
+                    "ajax": {
+                        "url": '@Url.Action("ListarProducto", "Tienda")',
+                        "type": "GET",
+                        "datatype": "json"
                     },
-                    {
-                        "data": "IdPersona", "render": function (data, type, row, meta) {
-
-                            return $("<button>").addClass("btn btn-primary btn-editar btn-sm").append(
-                                $("<i>").addClass("fas fa-pen")
-                            ).attr({ "data-informacion": JSON.stringify(row) })[0].outerHTML
-                            +
-                            $("<button>").addClass("btn btn-danger btn-eliminar btn-sm ml-2").append(
-                                $("<i>").addClass("fas fa-trash")
-                            ).attr({ "data-informacion": JSON.stringify(row) })[0].outerHTML;
-
+                    "columns": [
+                        { "data": "Nombre" },
+                        { "data": "Detalle" },
+                        { "data": "Precio" },
+                        { "data": "Cantidad" },
+                        {
+                            "data": "Estado", "render": function (data) {
+                                if (data) {
+                                    return '<span class="badge badge-success p-2">Activo</span>'
+                                } else {
+                                    return '<span class="badge badge-danger p-2">No Activo</span>'
+                                }
+                            }
                         },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "90px"
-                    }
+                        {
+                            "data": "IdProducto", "render": function (data, type, row, meta) {
 
-                ],
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
-                }
-            });
+                                return $("<button>").addClass("btn btn-primary btn-editar btn-sm").append(
+                                    $("<i>").addClass("fas fa-pen")
+                                ).attr({ "data-informacion": JSON.stringify(row) })[0].outerHTML
+                                +
+                                $("<button>").addClass("btn btn-danger btn-eliminar btn-sm ml-2").append(
+                                    $("<i>").addClass("fas fa-trash")
+                                ).attr({ "data-informacion": JSON.stringify(row) })[0].outerHTML;
+
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "90px"
+                        }
+
+                    ],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+                    }
+                });
         });
 
 
@@ -204,21 +186,19 @@
 
         function abrirModal(json) {
             $("#txtid").val(0);
-            $("#cbotipodocumento").val($("#cbotipodocumento option:first").val());
-            $("#txtdocumento").val("");
             $("#txtnombre").val("");
-            $("#txtapellido").val("");
-            $("#txtcorreo").val("");
+            $("#txtdetalle").val("");
+            $("#txtprecio").val("");
+            $("#txtcantidad").val("");
             $("#cboEstado").val(1);
 
             if (json != null) {
 
-                $("#txtid").val(json.IdPersona);
-                $("#cbotipodocumento").val(json.TipoDocumento);
-                $("#txtdocumento").val(json.Documento);
+                $("#txtid").val(json.IdProducto);
                 $("#txtnombre").val(json.Nombre);
-                $("#txtapellido").val(json.Apellido);
-                $("#txtcorreo").val(json.Correo);
+                $("#txtdetalle").val(json.Detalle);
+                $("#txtprecio").val(json.Precio);
+                $("#txtcantidad").val(json.Cantidad);
                 $("#cboEstado").val(json.Estado == true ? 1 : 0);
             }
 
@@ -229,9 +209,9 @@
             var json = $(this).data("informacion")
 
             jQuery.ajax({
-                url: '@Url.Action("EliminarPersona", "Inicio")',
+                url: '@Url.Action("EliminarProducto", "Tienda")',
                 type: "POST",
-                data: JSON.stringify({ id: json.IdPersona}),
+                data: JSON.stringify({ id: json.IdProducto}),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
@@ -254,20 +234,17 @@
         function Guardar() {
             var request = {
                 objeto: {
-                    IdPersona: $("#txtid").val(),
-                    TipoDocumento: $("#cbotipodocumento").val(),
-                    Documento: $("#txtdocumento").val(),
+                    IdProducto: $("#txtid").val(),
                     Nombre: $("#txtnombre").val(),
-                    Apellido: $("#txtapellido").val(),
-                    Correo: $("#txtcorreo").val(),
-                    Clave: "",
-                    oTipoPersona: { IdTipoPersona: 3 },
+                    Detalle: $("#txtdetalle").val(),
+                    PrecioTexto: $("#txtprecio").val(),
+                    Cantidad: $("#txtcantidad").val(),
                     Estado: parseInt($("#cboEstado").val()) == 1 ? true : false
                 }
             }
 
             jQuery.ajax({
-                url: '@Url.Action("GuardarPersona", "Inicio")',
+                url: '@Url.Action("GuardarProducto", "Tienda")',
                 type: "POST",
                 data: JSON.stringify(request),
                 dataType: "json",
@@ -278,7 +255,7 @@
                         tabladata.ajax.reload();
                         $('#FormModal').modal('hide');
                     } else {
-                        alert("No se pudo guardar los cambios");
+                        alert("No se pudo guardar los cambios")
                     }
                 },
                 error: function (error) {
@@ -294,6 +271,3 @@
     </script>
 
 }
-
-
-

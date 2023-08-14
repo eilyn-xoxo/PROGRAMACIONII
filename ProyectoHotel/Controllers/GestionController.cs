@@ -70,11 +70,14 @@ namespace ProyectoHotel.Controllers
         public ActionResult SalidaRegistro(int idhabitacion)
         {
             if (Session["Usuario"] == null)
+            
                 return RedirectToAction("Index", "Login");
+            
 
             Recepcion oRecepcion = RecepcionLogica.Instancia.Listar().Where(h => h.oHabitacion.IdHabitacion == idhabitacion && h.Estado == true).FirstOrDefault();
 
-            if (oRecepcion != null) {
+            if (oRecepcion != null)
+            {
 
                 List<Venta> oVenta = (from vn in VentaLogica.Instancia.Listar()
                                       where vn.oRecepcion.IdRecepcion == oRecepcion.IdRecepcion
@@ -93,7 +96,6 @@ namespace ProyectoHotel.Controllers
             return View(oRecepcion);
         }
 
-        
 
 
 
@@ -107,6 +109,15 @@ namespace ProyectoHotel.Controllers
 
             return View(objeto);
         }
+        //public ActionResult Venta(int idhabitacion)
+        //{
+        //    if (Session["Usuario"] == null)
+        //        return RedirectToAction("Index", "Login");
+
+        //    Recepcion objeto = RecepcionLogica.Instancia.Listar().Where(h => h.oHabitacion.IdHabitacion == idhabitacion && h.Estado == true).FirstOrDefault();
+
+        //    return View(objeto);
+        
 
 
 
